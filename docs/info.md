@@ -13,8 +13,13 @@ Explain how your project works
 
 ## How to test
 
-Explain how to use your project
+Automated test suite is ran via GitHub actions per the tinytapeout HDL template.
+
+TODO: explain test architecture
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+TODO:
+
+- 32KiB RAM
+- 32KiB ROM
