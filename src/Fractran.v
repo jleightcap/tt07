@@ -9,18 +9,26 @@ module topEntity
     , input [7:0] c$ds_2
 
       // Outputs
-    , output wire [7:0] c$case_alt
+    , output wire [7:0] result
     );
-  // src/Fractran.hs:19:1-9
+  // src/Fractran.hs:15:3-5
+  wire [7:0] a;
+  // src/Fractran.hs:15:3-5
+  wire [7:0] b;
+  // src/Fractran.hs:26:1-9
   wire [7:0] acc;
-  // src/Fractran.hs:19:1-9
+  // src/Fractran.hs:26:1-9
   wire [7:0] frac;
 
-  assign c$case_alt = acc + frac;
+  assign a = acc;
+
+  assign b = frac;
 
   assign acc = c$ds_1;
 
   assign frac = c$ds_2;
+
+  assign result = a + b;
 
 
 endmodule
