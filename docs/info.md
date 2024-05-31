@@ -9,7 +9,9 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+An ASIC Fractran interpreter.
+
+TODO: explain prime stream representation, factorization as stream addition, etc.
 
 ## How to test
 
