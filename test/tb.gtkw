@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.119 (w)1999-2024 BSI
-[*] Sat Jun  1 11:07:38 2024
+[*] Sat Jun  1 17:44:32 2024
 [*]
 [dumpfile] "/home/jleightcap/r/tt07/test/tb.vcd"
-[dumpfile_mtime] "Sat Jun  1 11:06:51 2024"
-[dumpfile_size] 2989
+[dumpfile_mtime] "Sat Jun  1 17:43:41 2024"
+[dumpfile_size] 2821
 [savefile] "/home/jleightcap/r/tt07/test/tb.gtkw"
 [timestart] 0
 [size] 1128 676
 [pos] -1 -1
-*-25.217234 23900000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-25.217234 2300000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
 [treeopen] tb.user_project.
 [sst_width] 306

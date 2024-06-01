@@ -25,7 +25,7 @@ async def setup(dut):
 
 @cocotb.test()
 async def signed_unsigned_addition(dut):
-    await cocotb.start(setup(dut))
+    await setup(dut)
 
     dut.fraction.value = frac = random.randint(0, 50)
     dut.accumulator.value = acc = random.randint(0,50)
@@ -55,3 +55,12 @@ async def fraction_exhausted(dut):
     dut.accumulator.value = 0b11111111
     await ClockCycles(dut.clk, 2)
     assert dut.degree.value == 0b11111111
+
+@cocotb.test()
+async def halt(dut):
+    await setup(dut)
+
+    dut.fraction.value = 0b10000001 # = - 0b01111110
+    dut.accumulator.value = 0
+    await ClockCycles(dut.clk, 2)
+    assert dut.halt.value == 0b1

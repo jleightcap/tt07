@@ -110,7 +110,7 @@ mooreO MkState {phase, result, count} =
       we = case phase of
         Read -> low
         Write -> high,
-      halt = low,
+      halt = boolToBit $ isNothing result,
       ocount = count
     }
 

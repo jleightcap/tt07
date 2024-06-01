@@ -19,13 +19,14 @@ module Fractran
   wire [17:0] \input ;
   // src/Fractran.hs:120:1-88
   reg [16:0] s1 = {1'd0,   {1'b1,{1'b1,8'b00000000}},   6'b000000};
-  wire  c$app_arg;
-  wire [7:0] c$app_arg_0;
-  // src/Fractran.hs:107:1-6
-  wire [8:0] v;
   wire [7:0] c$case_alt_0;
+  wire [7:0] c$app_arg;
+  wire  c$app_arg_0;
+  wire [0:0] c$app_arg_1;
   // src/Fractran.hs:37:3-6
   wire [7:0] a;
+  // src/Fractran.hs:107:1-6
+  wire [8:0] v;
   wire [16:0] result;
   wire [9:0] result_0;
   wire [9:0] c$case_alt_1;
@@ -34,7 +35,7 @@ module Fractran
   wire [9:0] c$case_alt_4;
   // src/Fractran.hs:56:7-8
   wire [7:0] ipv;
-  wire [7:0] c$app_arg_1;
+  wire [7:0] c$app_arg_2;
   wire [9:0] c$case_alt_5;
   wire  c$case_scrut;
   // src/Fractran.hs:56:7-8
@@ -47,7 +48,8 @@ module Fractran
   reg [8:0] c$input_app_arg;
   // src/Fractran.hs:148:1-9
   reg [8:0] c$input_app_arg_0;
-  wire [9:0] c$app_arg_selection_3;
+  wire [9:0] c$app_arg_selection_1;
+  wire [9:0] c$app_arg_selection_6;
   wire [7:0] c$bv;
   wire [15:0] c$case_alt;
 
@@ -64,20 +66,24 @@ module Fractran
   end
   // register end
 
-  assign c$case_alt = {c$app_arg_0,   c$app_arg,
-                       1'b0,   s1[5:0]};
-
-  assign c$app_arg = s1[16:16] ? (1'b1) : (1'b0);
-
-  assign c$app_arg_selection_3 = s1[15:6];
-
-  assign c$app_arg_0 = c$app_arg_selection_3[9:9] ? c$case_alt_0 : (8'b00000000);
-
-  assign v = s1[14:6];
-
   assign c$case_alt_0 = v[8:8] ? (a) : 8'b11111111;
 
+  assign c$app_arg_selection_1 = s1[15:6];
+
+  assign c$app_arg = c$app_arg_selection_1[9:9] ? c$case_alt_0 : (8'b00000000);
+
+  assign c$app_arg_0 = s1[16:16] ? (1'b1) : (1'b0);
+
+  assign c$app_arg_selection_6 = s1[15:6];
+
+  assign c$app_arg_1 = c$app_arg_selection_6[9:9] ? 1'b0 : 1'b1;
+
+  assign c$case_alt = {c$app_arg,   c$app_arg_0,
+                       (c$app_arg_1),   s1[5:0]};
+
   assign a = v[7:0];
+
+  assign v = s1[14:6];
 
   assign result = s1[16:16] ? {1'd0,   result_0,
                                s1[5:0]} : {1'd1,   result_0,
@@ -91,11 +97,11 @@ module Fractran
 
   assign c$case_alt_3 = c$case_scrut ? {1'b1,{1'b1,(ipv + f) % 8'b01111110}} : c$case_alt_4;
 
-  assign c$case_alt_4 = (ipv >= c$app_arg_1) ? {1'b1,{1'b1,(ipv - c$app_arg_1) + 8'b00000001}} : {1'b0,9'bxxxxxxxxx};
+  assign c$case_alt_4 = (ipv >= c$app_arg_2) ? {1'b1,{1'b1,(ipv - c$app_arg_2) + 8'b00000001}} : {1'b0,9'bxxxxxxxxx};
 
   assign ipv = a_0[7:0];
 
-  assign c$app_arg_1 = -f;
+  assign c$app_arg_2 = -f;
 
   assign c$case_alt_5 = c$case_scrut ? {1'b1,{1'b1,f}} : {1'b0,9'bxxxxxxxxx};
 
