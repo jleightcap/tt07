@@ -15,34 +15,34 @@ module Fractran
     , output wire  halt
     , output wire [5:0] count
     );
-  // src/Fractran.hs:151:1-9
+  // src/Fractran.hs:150:1-9
   wire [17:0] \input ;
-  // src/Fractran.hs:123:1-88
+  // src/Fractran.hs:122:1-88
   reg [16:0] s1 = {1'd0,   {1'b1,{1'b1,8'b00000000}},   6'b000000};
   wire [7:0] c$case_alt_0;
   wire [7:0] c$app_arg;
   wire  c$app_arg_0;
   wire [0:0] c$app_arg_1;
-  // src/Fractran.hs:108:1-6
+  // src/Fractran.hs:107:1-6
   wire [7:0] a;
   wire [16:0] c$case_alt_1;
   wire [5:0] c$app_arg_2;
-  // src/Fractran.hs:57:7-8
+  // src/Fractran.hs:56:7-8
   wire [7:0] ipv;
   wire [9:0] c$case_alt_2;
-  // src/Fractran.hs:57:7-8
+  // src/Fractran.hs:56:7-8
   wire [7:0] a_0;
   reg [9:0] c$case_alt_3;
   wire [9:0] result;
   wire [9:0] c$case_alt_4;
   wire [9:0] result_0;
-  // src/Fractran.hs:82:1-6
+  // src/Fractran.hs:81:1-6
   wire [8:0] f;
-  // src/Fractran.hs:82:1-6
+  // src/Fractran.hs:81:1-6
   wire [8:0] a_1;
-  // src/Fractran.hs:151:1-9
+  // src/Fractran.hs:150:1-9
   reg [8:0] c$input_app_arg;
-  // src/Fractran.hs:151:1-9
+  // src/Fractran.hs:150:1-9
   reg [8:0] c$input_app_arg_0;
   wire [8:0] c$case_alt_selection_2;
   wire [9:0] c$app_arg_selection_1;

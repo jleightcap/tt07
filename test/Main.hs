@@ -1,7 +1,9 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Props where
+module Main where
+
+import Clash.Prelude
 
 -- propositions over the register machine.
 

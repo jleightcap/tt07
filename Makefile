@@ -1,6 +1,3 @@
-TOP = Fractran
-ALL = src/$(TOP).v
-
 CLASH_SRC = $(wildcard src/*.hs)
 GHC_FLAGS += -isrc -Wall
 CLASH_FLAGS += $(GHC_FLAGS) \
@@ -11,24 +8,33 @@ CLASH_FLAGS += $(GHC_FLAGS) \
 VERILATOR_FLAGS += -Wall -Wno-WIDTH -Wno-MULTITOP
 
 .PHONY: all
-all: $(ALL)
+TOP ?= Fractran
+OUT = src/$(TOP).v
+all: $(OUT)
 
-$(ALL): $(CLASH_SRC)
-	clash $(CLASH_FLAGS) src/$(TOP).hs --verilog
+$(OUT): src/$(TOP).hs $(CLASH_SRC)
+	clash $(CLASH_FLAGS) $< --verilog
 	sed '/timescale/d' verilog/$(TOP).topEntity/$(TOP).v > $@
 
 .PHONY: lint
-lint: $(TOP)
+lint: $(OUT)
 	verilator --lint-only $(VERILATOR_FLAGS) $(wildcard src/*.v)
 	hlint $(CLASH_SRC)
 
 .PHONY: test
-test: $(TOP)
-	runghc $(GHC_FLAGS) test/Test.hs
+test: test-clash test-verilog
+
+.PHONY: test-clash
+test-clash: test/Main.hs
+	@# NOTE: `runghc` doesn't pull in some libs automatically, hack around for now
+	clash $(GHC_FLAGS) $< -o run && ./run && rm ./run
+
+.PHONY: test-verilog
+test-verilog: $(OUT)
 	$(MAKE) -C test/ && ! grep failure test/results.xml
 
 .PHONY: clean
 clean:
 	$(MAKE) -C test/ clean
-	rm -rf $(TOP) verilog/ src/*.hi src/*.o \
+	rm -rf $(OUT) verilog/ src/*.hi src/*.o \
 		test/__pycache__ test/results.xml runs/

@@ -4,7 +4,6 @@
  -}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE TypeOperators #-}
 
 module Fractran where
 
