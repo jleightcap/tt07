@@ -1,4 +1,5 @@
 TOP = Fractran
+ALL = src/$(TOP).v
 
 CLASH_SRC = $(wildcard src/*.hs)
 GHC_FLAGS += -isrc -Wall
@@ -10,9 +11,9 @@ CLASH_FLAGS += $(GHC_FLAGS) \
 VERILATOR_FLAGS += -Wall -Wno-WIDTH -Wno-MULTITOP
 
 .PHONY: all
-all: $(TOP)
+all: $(ALL)
 
-src/$(TOP).v: $(CLASH_SRC)
+$(ALL): $(CLASH_SRC)
 	clash $(CLASH_FLAGS) src/$(TOP).hs --verilog
 	sed '/timescale/d' verilog/$(TOP).topEntity/$(TOP).v > $@
 

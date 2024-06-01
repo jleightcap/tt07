@@ -16,6 +16,17 @@ module tt_um_jleightcap (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  Fractran ft(.clk(clk), .rst(~rst_n), .en(ena), .accumulator(uio_in), .fraction(uo_out), .oe(uio_oe), .scratch(uio_out));
+  wire we, halt;  // FIXME: expose this on write cycles
+  Fractran ft (
+      .clk(clk),
+      .rst(~rst_n),
+      .en(ena),
+      .accumulator(uio_in),
+      .fraction(uo_out),
+      .we(uio_oe),
+      .degree(uio_out),
+      .halt(halt)
+  );
+  assign uio_oe = {we{8}};
 
 endmodule
