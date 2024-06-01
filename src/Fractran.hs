@@ -73,7 +73,7 @@ data Phase = Read | Write deriving (Generic, NFDataX)
 data State = MkState
   { phase :: Phase,
     term :: Maybe AIter,
-    count :: BitVector 4
+    count :: BitVector 6
   }
   deriving (Generic, NFDataX)
 
@@ -93,39 +93,28 @@ mooreF MkState {phase = Read, term = _, count = c'} (a, f) =
     }
 
 -- (3) process State into Output
-data Control = MkCntl
-  { -- RAM write enable
-    we :: Bit,
-    -- [DEBUG] prime index
-    idx :: BitVector 4
-  }
-
-instance BitPack Control where
-  type BitSize Control = 8
-  pack MkCntl {we, idx} = pack (we :> 0 :> 0 :> 0 :> Nil) ++# idx
-  unpack = undefined
-
 data Output = MkOut
-  { cntl :: BitVector 8,
-    -- computed factor degree
-    degree :: AIter,
+  { -- computed factor degree
+    degree :: BitVector 8,
+    -- RAM write enable
+    we :: Bit,
     -- flag negative result, abort iteration
-    halt :: Bit
+    halt :: Bit,
+    -- [DEBUG] prime index
+    ocount :: BitVector 6
   }
 
 mooreO :: State -> Output
 mooreO MkState {phase, term = t', count} =
   MkOut
-    { cntl =
-        pack $
-          MkCntl
-            { we = case phase of
-                Read -> low
-                Write -> high,
-              idx = count
-            },
-      degree = fromMaybe (A 0) t', -- unused value in case of halt, unwrap with dummy value
-      halt = boolToBit $ isNothing t'
+    { degree = case t' of
+        Just (A a) -> a
+        _ -> 0,
+      we = case phase of
+        Read -> low
+        Write -> high,
+      halt = boolToBit $ isNothing t',
+      ocount = count
     }
 
 --
@@ -151,7 +140,7 @@ mooreM = moore mooreF mooreO s0
               ]
           ],
         t_output =
-          (PortProduct "" [PortName "we", PortName "degree", PortName "halt"])
+          (PortProduct "" [PortName "degree", PortName "we", PortName "halt", PortName "count"])
       }
   )
   #-}
@@ -159,7 +148,8 @@ topEntity ::
   ( Clock System,
     Reset System,
     Enable System,
-    Signal System (AIter, FIter)
+    Signal System (BitVector 8),
+    Signal System (BitVector 8)
   ) ->
   Signal System Output
-topEntity (clk, rst, en, iters) = exposeClockResetEnable (mooreM iters) clk rst en
+topEntity (clk, rst, en, acc, frac) = exposeClockResetEnable (mooreM (liftA2 (\a b -> (unpack a, unpack b)) acc frac)) clk rst en
