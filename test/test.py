@@ -1,13 +1,13 @@
-# SPDX-FileCopyrightText: © 2024 Tiny Tapeout
-# SPDX-License-Identifier: MIT
+#
+# Copyright (c) 2024 Jack Leightcap
+# SPDX-License-Identifier: Apache-2.0
+#
 
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
-
-@cocotb.test()
-async def test_project(dut):
+async def setup(dut):
     dut._log.info("Start")
 
     # Set the clock period to 10 us (100 KHz)
@@ -17,24 +17,40 @@ async def test_project(dut):
     # Reset
     dut._log.info("Reset")
     dut.ena.value = 1
-    dut.ui_in.value = 0
-    dut.uio_in.value = 0
+    dut.accumulator.value = 0
+    dut.fraction.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
-    dut.rst_n.value = 1
-
-    dut._log.info("Test project behavior")
-
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
-
-    # Wait for one clock cycle to see the output values
     await ClockCycles(dut.clk, 1)
 
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert dut.uo_out.value == 50
+@cocotb.test()
+async def phase_alternate(dut):
+    dut._log.info("Test alternating read/write phases")
+    await cocotb.start(setup(dut))
 
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    await ClockCycles(dut.clk, 1)
+    assert dut.count.value == 0
+    assert dut.we == 0
+    await ClockCycles(dut.clk, 1)
+    assert dut.count.value == 1
+    assert dut.we != 0
+
+@cocotb.test()
+async def signed_unsigned_addition(dut):
+    await cocotb.start(setup(dut))
+
+    dut.fraction.value = 19
+    dut.accumulator.value = 38
+    await ClockCycles(dut.clk, 2)
+    assert dut.degree.value == 19 + 38
+
+@cocotb.test()
+async def fraction_exhausted(dut):
+    """
+    fraction iterator consumed before accumulator iterator
+    """
+
+    await cocotb.start(setup(dut))
+
+    dut.fraction.value = 1
+    dut.accumulator.value = 2
+    await ClockCycles(dut.clk, 1)

@@ -15,41 +15,32 @@ module Fractran
     , output wire  halt
     , output wire [5:0] count
     );
-  // src/Fractran.hs:150:1-9
+  // src/Fractran.hs:146:1-9
   wire [17:0] \input ;
-  // src/Fractran.hs:122:1-88
-  reg [16:0] s1 = {1'd0,   {1'b1,{1'b1,8'b00000000}},   6'b000000};
-  wire [7:0] c$case_alt_0;
-  wire [7:0] c$app_arg;
-  wire  c$app_arg_0;
-  wire [0:0] c$app_arg_1;
-  // src/Fractran.hs:107:1-6
+  // src/Fractran.hs:118:1-88
+  reg [15:0] s1 = {1'd0,   {1'b1,8'b00000000},   6'b000000};
+  wire  c$app_arg;
+  wire [7:0] c$app_arg_0;
+  // src/Fractran.hs:37:3-6
   wire [7:0] a;
-  wire [16:0] c$case_alt_1;
-  wire [5:0] c$app_arg_2;
+  wire [15:0] result_0;
+  wire [8:0] result_1;
+  wire [8:0] c$case_alt;
+  wire [8:0] c$case_alt_0;
   // src/Fractran.hs:56:7-8
   wire [7:0] ipv;
-  wire [9:0] c$case_alt_2;
   // src/Fractran.hs:56:7-8
-  wire [7:0] a_0;
-  reg [9:0] c$case_alt_3;
-  wire [9:0] result;
-  wire [9:0] c$case_alt_4;
-  wire [9:0] result_0;
-  // src/Fractran.hs:81:1-6
+  wire [7:0] ipv_0;
+  // src/Fractran.hs:79:1-6
   wire [8:0] f;
-  // src/Fractran.hs:81:1-6
-  wire [8:0] a_1;
-  // src/Fractran.hs:150:1-9
+  // src/Fractran.hs:79:1-6
+  wire [8:0] a_0;
+  // src/Fractran.hs:146:1-9
   reg [8:0] c$input_app_arg;
-  // src/Fractran.hs:150:1-9
+  // src/Fractran.hs:146:1-9
   reg [8:0] c$input_app_arg_0;
-  wire [8:0] c$case_alt_selection_2;
-  wire [9:0] c$app_arg_selection_1;
-  wire [9:0] c$app_arg_selection_6;
-  wire [0:0] c$case_alt_selection_res;
-  wire [7:0] c$bv;
-  wire [15:0] c$case_alt;
+  wire [8:0] c$app_arg_selection_3;
+  wire [15:0] result;
 
   assign \input  = {c$input_app_arg_0,
                     c$input_app_arg};
@@ -57,64 +48,41 @@ module Fractran
   // register begin
   always @(posedge clk or  posedge  rst) begin : s1_register
     if ( rst) begin
-      s1 <= {1'd0,   {1'b1,{1'b1,8'b00000000}},   6'b000000};
+      s1 <= {1'd0,   {1'b1,8'b00000000},   6'b000000};
     end else if (en) begin
-      s1 <= c$case_alt_1;
+      s1 <= result_0;
     end
   end
   // register end
 
-  assign c$case_alt_selection_2 = s1[14:6];
+  assign c$app_arg = s1[15:15] ? (1'b1) : (1'b0);
 
-  assign c$case_alt_0 = c$case_alt_selection_2[8:8] ? a : 8'b00000000;
+  assign c$app_arg_selection_3 = s1[14:6];
 
-  assign c$app_arg_selection_1 = s1[15:6];
-
-  assign c$app_arg = c$app_arg_selection_1[9:9] ? c$case_alt_0 : 8'b00000000;
-
-  assign c$app_arg_0 = s1[16:16] ? (1'b1) : (1'b0);
-
-  assign c$app_arg_selection_6 = s1[15:6];
-
-  assign c$app_arg_1 = c$app_arg_selection_6[9:9] ? 1'b0 : 1'b1;
-
-  assign c$case_alt = {c$app_arg,   c$app_arg_0,
-                       (c$app_arg_1),   s1[5:0]};
+  assign c$app_arg_0 = c$app_arg_selection_3[8:8] ? (a) : 8'b11111111;
 
   assign a = s1[13:6];
 
-  assign c$case_alt_1 = s1[16:16] ? {1'd0,
-                                     s1[15:6],   c$app_arg_2} : {1'd1,   result_0,
-                                                                 c$app_arg_2};
+  assign result_0 = s1[15:15] ? {1'd0,
+                                 result_1,   s1[5:0]} : {1'd1,   result_1,
+                                                         s1[5:0] + 6'b000001};
 
-  assign c$app_arg_2 = s1[5:0] + 6'b000001;
+  assign result_1 = a_0[8:8] ? c$case_alt : c$case_alt_0;
 
-  assign ipv = f[7:0];
+  assign c$case_alt = f[8:8] ? {1'b1,ipv + ipv_0} : a_0;
 
-  assign c$case_alt_2 = a_1[8:8] ? {1'b1,{1'b1,a_0 + ipv}} : c$case_alt_3;
+  assign c$case_alt_0 = f[8:8] ? {1'b1,ipv_0} : {1'b0,8'bxxxxxxxx};
 
-  assign a_0 = a_1[7:0];
+  assign ipv = a_0[7:0];
 
-  assign c$bv = (ipv);
-
-  assign c$case_alt_selection_res = (( c$bv[8-1] ));
-
-  always @(*) begin
-    case(c$case_alt_selection_res)
-      1'b1 : c$case_alt_3 = {1'b0,9'bxxxxxxxxx};
-      default : c$case_alt_3 = {1'b1,{1'b1,ipv}};
-    endcase
-  end
-
-  assign result = f[8:8] ? c$case_alt_2 : {1'b1,a_1};
-
-  assign c$case_alt_4 = f[8:8] ? result : {1'b1,{1'b0,8'bxxxxxxxx}};
-
-  assign result_0 = a_1[8:8] ? result : c$case_alt_4;
+  assign ipv_0 = f[7:0];
 
   assign f = \input [8:0];
 
-  assign a_1 = \input [17:9];
+  assign a_0 = \input [17:9];
+
+  assign result = {c$app_arg_0,   c$app_arg,
+                   1'b0,   s1[5:0]};
 
   always @(*) begin
     case(fraction)
@@ -130,13 +98,13 @@ module Fractran
     endcase
   end
 
-  assign degree = c$case_alt[15:8];
+  assign degree = result[15:8];
 
-  assign we = c$case_alt[7:7];
+  assign we = result[7:7];
 
-  assign halt = c$case_alt[6:6];
+  assign halt = result[6:6];
 
-  assign count = c$case_alt[5:0];
+  assign count = result[5:0];
 
 
 endmodule

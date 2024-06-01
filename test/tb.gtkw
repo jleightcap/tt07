@@ -1,55 +1,82 @@
 [*]
 [*] GTKWave Analyzer v3.3.119 (w)1999-2024 BSI
-[*] Sat Jun  1 10:04:25 2024
+[*] Sat Jun  1 11:07:38 2024
 [*]
 [dumpfile] "/home/jleightcap/r/tt07/test/tb.vcd"
-[dumpfile_mtime] "Sat Jun  1 10:02:02 2024"
-[dumpfile_size] 15529
+[dumpfile_mtime] "Sat Jun  1 11:06:51 2024"
+[dumpfile_size] 2989
 [savefile] "/home/jleightcap/r/tt07/test/tb.gtkw"
 [timestart] 0
 [size] 1128 676
 [pos] -1 -1
-*-26.387157 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-25.217234 23900000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
+[treeopen] tb.user_project.
 [sst_width] 306
 [signals_width] 230
 [sst_expanded] 1
 [sst_vpaned_height] 185
 @28
-tb.user_project.ena
 tb.user_project.clk
 tb.user_project.rst_n
-@200
--Inputs
-@24
-tb.user_project.ui_in[7:0]
-@200
--Bidirectional Pins
+@c00024
++{accumulator} tb.user_project.ui_in[7:0]
+@28
+(0)tb.user_project.ui_in[7:0]
+(1)tb.user_project.ui_in[7:0]
+(2)tb.user_project.ui_in[7:0]
+(3)tb.user_project.ui_in[7:0]
+(4)tb.user_project.ui_in[7:0]
+(5)tb.user_project.ui_in[7:0]
+(6)tb.user_project.ui_in[7:0]
+(7)tb.user_project.ui_in[7:0]
+@1401200
+-group_end
+@c00024
++{fraction} tb.user_project.uio_in[7:0]
+@28
+(0)tb.user_project.uio_in[7:0]
+(1)tb.user_project.uio_in[7:0]
+(2)tb.user_project.uio_in[7:0]
+(3)tb.user_project.uio_in[7:0]
+(4)tb.user_project.uio_in[7:0]
+(5)tb.user_project.uio_in[7:0]
+(6)tb.user_project.uio_in[7:0]
+(7)tb.user_project.uio_in[7:0]
+@1401200
+-group_end
 @22
-tb.user_project.uio_in[7:0]
-@23
-tb.user_project.uio_oe[7:0]
++{we} tb.user_project.uio_oe[7:0]
 @800022
-tb.user_project.uio_out[7:0]
++{control} tb.user_project.uio_out[7:0]
 @28
 +{we} (0)tb.user_project.uio_out[7:0]
 +{halt} (1)tb.user_project.uio_out[7:0]
-@800200
--counter
-@28
-+{halt} (2)tb.user_project.uio_out[7:0]
+@c00022
++{counter} #{tb.user_project.uio_out[5:0]} (2)tb.user_project.uio_out[7:0] (3)tb.user_project.uio_out[7:0] (4)tb.user_project.uio_out[7:0] (5)tb.user_project.uio_out[7:0] (6)tb.user_project.uio_out[7:0] (7)tb.user_project.uio_out[7:0]
+@24
+(2)tb.user_project.uio_out[7:0]
 (3)tb.user_project.uio_out[7:0]
 (4)tb.user_project.uio_out[7:0]
 (5)tb.user_project.uio_out[7:0]
 (6)tb.user_project.uio_out[7:0]
 (7)tb.user_project.uio_out[7:0]
-@1000200
--counter
+@1401200
+-group_end
 @1001200
 -group_end
-@200
--Output Pins
-@22
-tb.user_project.uo_out[7:0]
+@c00025
++{degree} tb.user_project.uo_out[7:0]
+@28
+(0)tb.user_project.uo_out[7:0]
+(1)tb.user_project.uo_out[7:0]
+(2)tb.user_project.uo_out[7:0]
+(3)tb.user_project.uo_out[7:0]
+(4)tb.user_project.uo_out[7:0]
+(5)tb.user_project.uo_out[7:0]
+(6)tb.user_project.uo_out[7:0]
+(7)tb.user_project.uo_out[7:0]
+@1401205
+-group_end
 [pattern_trace] 1
 [pattern_trace] 0

@@ -52,14 +52,12 @@ instance BitPack FIter where
 -- compare two prime term degrees: sum of degrees is degree if product
 -- - AIter degrees are 8-bit unsigned with two reserved values, in [0,255 - 2]
 -- - FIter degrees are 8-bit one's complement with "second zero" acting as sentinel, in [-127,127]
-(%+) :: AIter -> FIter -> Maybe AIter
-ADone %+ FDone = Just ADone
-a %+ FDone = Just a
+(%+) :: AIter -> FIter -> AIter
+ADone %+ FDone = ADone
+a %+ FDone = a
 -- FIXME: these two cases, addition of one's complement signed and unsigned numbers
-ADone %+ (F f) = if bitToBool (msb f) then Nothing else Just (A f)
-(A a) %+ (F f) = Just sum
-  where
-    sum = A (a + f)
+ADone %+ (F f) = A f
+(A a) %+ (F f) = A (a + f)
 
 -- moore machine:
 -- 1. define iterated State type
@@ -71,24 +69,24 @@ data Phase = Read | Write deriving (Generic, NFDataX)
 
 data State = MkState
   { phase :: Phase,
-    term :: Maybe AIter,
+    result :: AIter,
     count :: BitVector 6
   }
   deriving (Generic, NFDataX)
 
 -- (2) process State based on input iterators
 mooreF :: State -> (AIter, FIter) -> State
-mooreF MkState {phase = Write, term, count = c'} _ =
+mooreF MkState {phase = Write, result, count} (a, f) =
   MkState
     { phase = Read,
-      term,
-      count = c' + 1
+      result = a %+ f,
+      count = count
     }
-mooreF MkState {phase = Read, term = _, count = c'} (a, f) =
+mooreF MkState {phase = Read, result, count} (a, f) =
   MkState
     { phase = Write,
-      term = a %+ f,
-      count = c' + 1
+      result = a %+ f,
+      count = count + 1
     }
 
 -- (3) process State into Output
@@ -104,15 +102,13 @@ data Output = MkOut
   }
 
 mooreO :: State -> Output
-mooreO MkState {phase, term = t', count} =
+mooreO MkState {phase, result, count} =
   MkOut
-    { degree = case t' of
-        Just (A a) -> a
-        _ -> 0,
+    { degree = pack result,
       we = case phase of
         Read -> low
         Write -> high,
-      halt = boolToBit $ isNothing t',
+      halt = low,
       ocount = count
     }
 
@@ -122,7 +118,7 @@ mooreO MkState {phase, term = t', count} =
 mooreM :: (HiddenClockResetEnable dom) => Signal dom (AIter, FIter) -> Signal dom Output
 mooreM = moore mooreF mooreO s0
   where
-    s0 = MkState {phase = Read, term = Just (A 0), count = 0}
+    s0 = MkState {phase = Read, result = A 0, count = 0}
 
 {-# ANN
   topEntity

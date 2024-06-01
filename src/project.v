@@ -16,17 +16,20 @@ module tt_um_jleightcap (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  wire we, halt;  // FIXME: expose this on write cycles
+  wire we, halt;
+  wire [5:0] count;
   Fractran ft (
       .clk(clk),
-      .rst(~rst_n),
+      .rst(rst_n),
       .en(ena),
       .accumulator(uio_in),
-      .fraction(uo_out),
-      .we(uio_oe),
-      .degree(uio_out),
-      .halt(halt)
+      .fraction(ui_in),
+      .we(we),
+      .degree(uo_out),
+      .halt(halt),
+      .count(count)
   );
-  assign uio_oe = {we{8}};
+  assign uio_out = {we, halt, count};
+  assign uio_oe = {we, we, we, we, we, we, we, we};
 
 endmodule
