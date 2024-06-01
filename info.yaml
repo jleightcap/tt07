@@ -4,7 +4,7 @@ project:
   author:       "Jack Leightcap"
   description:  "Hardware implementation of John Conway's estoeric turing-complete lanugage Fractran"
   language:     "Clash"
-  clock_hz:     1       # TODO: how to determine max clock rate? or just leave as reasonable minimum?
+  clock_hz:     1
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
@@ -36,7 +36,6 @@ pinout:
   uo[6]: "factorized stream [6]"
   uo[7]: "factorized stream [7]"
 
-  # Bidirectional pins, all configured as inputs
   uio[0]: "fraction stream [0]"
   uio[1]: "fraction stream [1]"
   uio[2]: "fraction stream [2]"
