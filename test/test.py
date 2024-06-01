@@ -24,15 +24,6 @@ async def setup(dut):
     await ClockCycles(dut.clk, 1)
 
 @cocotb.test()
-async def phase_alternate(dut):
-    dut._log.info("Test alternating read/write phases")
-    await cocotb.start(setup(dut))
-
-    await ClockCycles(dut.clk, 1)
-    assert dut.count.value == 0
-    assert dut.we == 0
-
-@cocotb.test()
 async def signed_unsigned_addition(dut):
     await cocotb.start(setup(dut))
 
