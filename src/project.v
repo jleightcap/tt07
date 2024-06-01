@@ -16,11 +16,6 @@ module tt_um_jleightcap (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-  assign uio_oe = 8'b00000000;
-  assign uio_out = 0;
-  topEntity tt(clk, ~rst_n, ui_in, uio_in, uo_out);
-
-  // List all unused inputs to prevent warnings
-  wire _unused = &{ena, 1'b0};
+  Fractran ft(.clk(clk), .rst(~rst_n), .en(ena), .accumulator(uio_in), .fraction(uo_out), .oe(uio_oe), .scratch(uio_out));
 
 endmodule
