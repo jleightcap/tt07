@@ -54,10 +54,10 @@ Encodings:
 - accumulator: 8-bit unsigned integer degrees. Value `0b11111111` reserved as sentinel "STOP" value.
 - fraction: 8-bit signed (one's complement) degrees. Value `0b11111111` (the "second zero") reserved as sentinel "STOP" value.
 
-Apply to these two inputs pair of streams of prime factor degrees.
-When the each stream is exhausted, apply the "STOP" value.
+Input to accumulator and fraction streams each's encoded prime factor degrees.
+When a stream is exhausted, apply its "STOP" value.
 
-For each input, there is output:
+For each applied input, the outputs generated:
 - resultant degree, or "STOP" when both input streams exhausted, indicating a positive result and accumulator writeback.
 - HALT, when a negative degree is calculuated, indicating the start of the next fraction.
 
