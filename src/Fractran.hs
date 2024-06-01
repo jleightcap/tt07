@@ -130,14 +130,11 @@ mooreM = moore mooreF mooreO s0
   ( Synthesize
       { t_name = "Fractran",
         t_inputs =
-          [ PortProduct
-              ""
-              [ PortName "clk",
-                PortName "rst",
-                PortName "en",
-                PortName "accumulator",
-                PortName "fraction"
-              ]
+          [ PortName "accumulator",
+            PortName "fraction",
+            PortName "clk",
+            PortName "rst",
+            PortName "en"
           ],
         t_output =
           (PortProduct "" [PortName "degree", PortName "we", PortName "halt", PortName "count"])
@@ -145,11 +142,12 @@ mooreM = moore mooreF mooreO s0
   )
   #-}
 topEntity ::
-  ( Clock System,
-    Reset System,
-    Enable System,
-    Signal System (BitVector 8),
-    Signal System (BitVector 8)
-  ) ->
+  Signal System (BitVector 8) ->
+  Signal System (BitVector 8) ->
+  Clock System ->
+  Reset System ->
+  Enable System ->
   Signal System Output
-topEntity (clk, rst, en, acc, frac) = exposeClockResetEnable (mooreM (liftA2 (\a b -> (unpack a, unpack b)) acc frac)) clk rst en
+topEntity acc frac = exposeClockResetEnable (mooreM input)
+  where
+    input = liftA2 (\a b -> (unpack a, unpack b)) acc frac

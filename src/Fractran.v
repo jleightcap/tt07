@@ -3,10 +3,11 @@
 */
 module Fractran
     ( // Inputs
-      input  clk // clock
+      input [7:0] accumulator
+    , input [7:0] fraction
+    , input  clk // clock
     , input  rst // reset
     , input  en // enable
-    , input [17:0] accumulator
 
       // Outputs
     , output wire [7:0] degree
@@ -14,13 +15,15 @@ module Fractran
     , output wire  halt
     , output wire [5:0] count
     );
-  // src/Fractran.hs:122:1-88
+  // src/Fractran.hs:151:1-9
+  wire [17:0] \input ;
+  // src/Fractran.hs:123:1-88
   reg [16:0] s1 = {1'd0,   {1'b1,{1'b1,8'b00000000}},   6'b000000};
   wire [7:0] c$case_alt_0;
   wire [7:0] c$app_arg;
   wire  c$app_arg_0;
   wire [0:0] c$app_arg_1;
-  // src/Fractran.hs:107:1-6
+  // src/Fractran.hs:108:1-6
   wire [7:0] a;
   wire [16:0] c$case_alt_1;
   wire [5:0] c$app_arg_2;
@@ -33,16 +36,23 @@ module Fractran
   wire [9:0] result;
   wire [9:0] c$case_alt_4;
   wire [9:0] result_0;
-  // src/Fractran.hs:81:1-6
+  // src/Fractran.hs:82:1-6
   wire [8:0] f;
-  // src/Fractran.hs:81:1-6
+  // src/Fractran.hs:82:1-6
   wire [8:0] a_1;
+  // src/Fractran.hs:151:1-9
+  reg [8:0] c$input_app_arg;
+  // src/Fractran.hs:151:1-9
+  reg [8:0] c$input_app_arg_0;
   wire [8:0] c$case_alt_selection_2;
   wire [9:0] c$app_arg_selection_1;
   wire [9:0] c$app_arg_selection_6;
   wire [0:0] c$case_alt_selection_res;
   wire [7:0] c$bv;
   wire [15:0] c$case_alt;
+
+  assign \input  = {c$input_app_arg_0,
+                    c$input_app_arg};
 
   // register begin
   always @(posedge clk or  posedge  rst) begin : s1_register
@@ -102,9 +112,23 @@ module Fractran
 
   assign result_0 = a_1[8:8] ? result : c$case_alt_4;
 
-  assign f = accumulator[8:0];
+  assign f = \input [8:0];
 
-  assign a_1 = accumulator[17:9];
+  assign a_1 = \input [17:9];
+
+  always @(*) begin
+    case(fraction)
+      8'b11111111 : c$input_app_arg = {1'b0,8'bxxxxxxxx};
+      default : c$input_app_arg = {1'b1,fraction};
+    endcase
+  end
+
+  always @(*) begin
+    case(accumulator)
+      8'b11111111 : c$input_app_arg_0 = {1'b0,8'bxxxxxxxx};
+      default : c$input_app_arg_0 = {1'b1,accumulator};
+    endcase
+  end
 
   assign degree = c$case_alt[15:8];
 
